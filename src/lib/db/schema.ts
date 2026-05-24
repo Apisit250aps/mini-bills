@@ -5,6 +5,7 @@ import {
   text,
   primaryKey,
   integer,
+  pgEnum,
 } from 'drizzle-orm/pg-core'
 import type { AdapterAccountType } from '@auth/core/adapters'
 import { v7 as uuidv7 } from 'uuid'
@@ -93,3 +94,32 @@ export const authenticators = pgTable(
     },
   ],
 )
+
+export const wallet = pgTable('wallet', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv7()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
+  description: text('description'),
+  createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
+})
+
+export const transactionEnum = pgEnum('transaction_type', ['income', 'expense'] as const)
+
+export const transaction = pgTable('transaction', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv7()),
+  walletId: text('walletId')
+    .notNull()
+    .references(() => wallet.id, { onDelete: 'cascade' }),
+  amount: integer('amount').notNull(),
+  description: text('description'),
+  type: transactionEnum('type').notNull(),
+  createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
+})
