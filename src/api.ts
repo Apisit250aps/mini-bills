@@ -1,14 +1,16 @@
 import { authHandler, initAuthConfig } from '@hono/auth-js'
 import { Hono } from 'hono'
-// 
+//
 import authConfig from '@/config/auth'
-import { onAppError } from '@/lib/app/error';
-// 
-import WalletController from './lib/http/controllers/wallet.controller';
-import {logger} from 'hono/logger'
-const walletController = new WalletController()
-
-const api = new Hono().basePath('/api')
+import { onAppError } from '@/lib/app/error'
+//
+import { logger } from 'hono/logger'
+import router from './lib/http/routes'
+import { User } from 'next-auth'
+type Variables = {
+  user?: User | null
+}
+const api = new Hono<{ Variables: Variables }>().basePath('/api')
 api.use(logger())
 api.use(
   '*',
@@ -17,9 +19,8 @@ api.use(
     ...authConfig,
   })),
 )
-
 api.use('/auth/*', authHandler())
-api.get('/wallets/:walletId',walletController.getWallet)
+api.route('', router)
 api.onError(onAppError)
 
 export default api

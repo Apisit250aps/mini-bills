@@ -11,7 +11,8 @@ class CreateWalletUseCase extends UseCase<CreateWalletInput, Wallet> {
   execute(input: CreateWalletInput): Promise<Wallet> {
     try {
       return this.walletRepository.create(input)
-    } catch {
+    } catch (err) {
+      if (err instanceof AppError) throw err
       throw new InternalError('Failed to create wallet')
     }
   }
