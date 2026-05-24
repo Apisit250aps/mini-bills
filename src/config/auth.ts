@@ -1,5 +1,5 @@
 import { walletRepository } from '@/core/repository'
-import { CreateWalletUseCase } from '@/core/usecase/wallet.usecase'
+import { CreateWalletUseCase } from '@/core/application/wallet.usecase'
 import db from '@/lib/db'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { NextAuthConfig } from 'next-auth'

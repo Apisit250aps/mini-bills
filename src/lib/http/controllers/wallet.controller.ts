@@ -4,7 +4,7 @@ import {
   getWalletUseCase,
   updateWalletUseCase,
   walletUserUseCase,
-} from '@/core/usecase'
+} from '@/core/application'
 import Controller from '@/lib/app/controller'
 import { Context } from 'hono'
 import z from 'zod'
@@ -48,7 +48,7 @@ class WalletController extends Controller {
       },
     )
   }
-  // 
+  //
   updateWallet() {
     return this.validator(
       {
