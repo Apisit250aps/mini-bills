@@ -15,7 +15,7 @@ export default abstract class Repository<T> {
     return data as T[]
   }
 
-  async findById(id: number): Promise<T | null> {
+  async findById(id: string): Promise<T | null> {
     const model = this.model as PgTable & { id: PgColumn }
     const data = await this.db.select().from(this.model).where(eq(model.id, id))
     return (data[0] as T) || null
@@ -26,7 +26,7 @@ export default abstract class Repository<T> {
     return data[0] as T
   }
 
-  async update(id: number, item: Partial<T>): Promise<T> {
+  async update(id: string, item: Partial<T>): Promise<T> {
     const model = this.model as PgTable & { id: PgColumn }
     const data = await this.db
       .update(this.model)
@@ -36,7 +36,7 @@ export default abstract class Repository<T> {
     return data[0] as T
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     const model = this.model as PgTable & { id: PgColumn }
     await this.db.delete(this.model).where(eq(model.id, id))
   }
