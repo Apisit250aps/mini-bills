@@ -14,7 +14,9 @@
     "db:reset": "drizzle-kit reset"
   },
   "dependencies": {
+    "@auth/core": "^0.41.2",
     "@auth/drizzle-adapter": "^1.11.2",
+    "@hono/auth-js": "^1.1.1",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.22",
