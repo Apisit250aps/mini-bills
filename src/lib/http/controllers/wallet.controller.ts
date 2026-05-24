@@ -9,7 +9,7 @@ import Controller from '@/lib/app/controller'
 import { Context } from 'hono'
 import z from 'zod'
 class WalletController extends Controller {
-  //
+  // Get wallet details by ID
   getWallet() {
     return this.validator(
       {
@@ -40,12 +40,6 @@ class WalletController extends Controller {
       async (c: Context) => {
         const body = await c.get('body')
         const user = c.get('user')
-        console.log(
-          'WalletController.createWallet - user:',
-          user,
-          'body:',
-          body,
-        )
         const wallet = await createWalletUseCase.execute({
           ...body,
           userId: user.id,
@@ -54,7 +48,7 @@ class WalletController extends Controller {
       },
     )
   }
-  //
+  // 
   updateWallet() {
     return this.validator(
       {

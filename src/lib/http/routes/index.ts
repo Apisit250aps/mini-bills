@@ -1,8 +1,10 @@
 import { Hono } from 'hono'
 import WalletController from '@/lib/http/controllers/wallet.controller'
 import { authMiddleware } from '../middlewares/auth.middleware'
+import TransactionController from '../controllers/transaction.controller'
 
 const walletController = new WalletController()
+const transactionController = new TransactionController()
 
 const router = new Hono()
 /**
@@ -32,4 +34,25 @@ router.delete(
  * - PUT /transactions/:transactionId: Update transaction details by ID
  * - DELETE /transactions/:transactionId: Delete a transaction by ID
  */
+router.post(
+  '/transactions',
+  authMiddleware(),
+  transactionController.createTransaction(),
+)
+router.get(
+  '/transactions',
+  authMiddleware(),
+  transactionController.getAllTransactions(),
+)
+router.get(
+  '/transactions/:transactionId',
+  authMiddleware(),
+  transactionController.getTransaction(),
+)
+router.delete(
+  '/transactions/:transactionId',
+  authMiddleware(),
+  transactionController.deleteTransaction(),
+)
+
 export default router
