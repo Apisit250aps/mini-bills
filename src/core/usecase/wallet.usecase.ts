@@ -1,7 +1,7 @@
 import UseCase from '@/lib/app/usecase'
 import { CreateWalletInput, Wallet } from '../domain/wallet'
 import WalletRepository from '../repository/wallet.repo'
-import { InternalError, NotFoundError } from '@/lib/app/error'
+import { AppError, InternalError, NotFoundError } from '@/lib/app/error'
 
 class CreateWalletUseCase extends UseCase<CreateWalletInput, Wallet> {
   constructor(private walletRepository: WalletRepository) {
@@ -28,7 +28,8 @@ class GetWalletUseCase extends UseCase<string, Wallet> {
         throw new NotFoundError('Wallet not found')
       }
       return wallet
-    } catch {
+    } catch (err) {
+      if (err instanceof AppError) throw err
       throw new InternalError('Failed to get wallet')
     }
   }
@@ -54,7 +55,8 @@ class UpdateWalletUseCase extends UseCase<
         throw new NotFoundError('Wallet not found')
       }
       return wallet
-    } catch {
+    } catch (err) {
+      if (err instanceof AppError) throw err
       throw new InternalError('Failed to update wallet')
     }
   }
@@ -71,7 +73,8 @@ class DeleteWalletUseCase extends UseCase<string, void> {
         throw new NotFoundError('Wallet not found')
       }
       await this.walletRepository.delete(walletId)
-    } catch {
+    } catch (err) {
+      if (err instanceof AppError) throw err
       throw new InternalError('Failed to delete wallet')
     }
   }
