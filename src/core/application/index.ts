@@ -1,4 +1,8 @@
-import { walletRepository, transactionRepository } from '../repository'
+import {
+  walletRepository,
+  transactionRepository,
+  userRepository,
+} from '../repository'
 
 // Wallet Use Cases
 import {
@@ -9,7 +13,6 @@ import {
   AllWalletsUseCase,
   WalletUserUseCase,
 } from './wallet.usecase'
-
 // Transaction Use Cases
 import {
   AllTransactionsUseCase,
@@ -17,7 +20,7 @@ import {
   DeleteTransactionUseCase,
   GetTransactionUseCase,
 } from './transaction.usecase'
-
+import { CreateUserUseCase, GetMeUseCase } from './user.usecase'
 /**
  * Wallet Use Cases
  */
@@ -42,3 +45,8 @@ export const getTransactionUseCase = new GetTransactionUseCase(
 export const deleteTransactionUseCase = new DeleteTransactionUseCase(
   transactionRepository,
 )
+/**
+ * User Use Cases
+ */
+export const getMeUseCase = new GetMeUseCase(userRepository)
+export const createUserUseCase = new CreateUserUseCase(userRepository)

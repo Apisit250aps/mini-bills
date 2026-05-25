@@ -2,9 +2,11 @@ import { Hono } from 'hono'
 import WalletController from '@/lib/http/controllers/wallet.controller'
 import { authMiddleware } from '../middlewares/auth.middleware'
 import TransactionController from '../controllers/transaction.controller'
+import UserController from '../controllers/user.controller';
 
 const walletController = new WalletController()
 const transactionController = new TransactionController()
+const userController = new UserController()
 
 const router = new Hono()
 /**
@@ -54,5 +56,7 @@ router.delete(
   authMiddleware(),
   transactionController.deleteTransaction(),
 )
+
+router.get('/me', authMiddleware(), userController.getMe())
 
 export default router
