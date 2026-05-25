@@ -87,7 +87,7 @@ async function seed() {
   // ~15 transactions per month = 45 total
   for (let i = 0; i < 45; i++) {
     const daysBack = randomInt(1, 90)
-    const isIncome = Math.random() < 0.3 // 30% income, 70% expense
+    const isIncome = Math.random() > 0.3 // 30% income, 70% expense
     const type = isIncome ? 'income' : 'expense'
     const description = isIncome
       ? incomeItems[randomInt(0, incomeItems.length - 1)]

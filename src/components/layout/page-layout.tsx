@@ -35,8 +35,8 @@ export default function PageLayout({
   }, [])
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col pt-8 pb-28 px-4 md:px-4 bg-white dark:bg-black">
-        <div className="flex justify-between items-center mb-8">
+      <main className="flex flex-1 w-full max-w-3xl flex-col pt-8 pb-28 px-0 md:px-0 bg-white dark:bg-black">
+        <div className="flex justify-between items-center mb-8 px-4">
           {pathname !== '/' && (
             <Button className="text-white" asChild>
               <Link href="/">
@@ -87,7 +87,7 @@ export default function PageLayout({
         direction="middle"
         iconSize={52}
         iconMagnification={72}
-        className="absolute bottom-4 rounded-lg bg-white/80 backdrop-blur-sm dark:bg-black/80"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-2xl bg-white/70 backdrop-blur-md shadow-lg border border-white/20 dark:bg-black/70 dark:border-white/10"
       />
     </div>
   )
