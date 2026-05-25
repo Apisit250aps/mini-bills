@@ -1,7 +1,7 @@
 import Repository from '@/lib/app/repository'
 import { Transaction } from '../domain/transaction'
 import { transaction } from '@/lib/db/schema'
-import { eq, TablesRelationalConfig } from 'drizzle-orm'
+import { eq, desc, TablesRelationalConfig } from 'drizzle-orm'
 import { NodePgDatabase, NodePgTransaction } from 'drizzle-orm/node-postgres'
 
 class TransactionRepository extends Repository<Transaction> {
@@ -20,6 +20,7 @@ class TransactionRepository extends Repository<Transaction> {
       .select()
       .from(this.model)
       .where(eq(model.walletId, walletId))
+      .orderBy(desc(model.createdAt))
     return data as Transaction[]
   }
 }

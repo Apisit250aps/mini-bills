@@ -97,7 +97,7 @@ async function seed() {
 
     transactions.push({
       id: uuidv7(),
-      walletId,
+      walletId:"019e5f74-de9f-7219-840a-f6caa54e8c1e",
       amount,
       description,
       type,
