@@ -2,15 +2,19 @@
 
 import { Wallet } from '@/core/domain/wallet'
 import { createContext, useContext, useMemo, useState } from 'react'
-import { useWalletQuery, useWalletTransactionsQuery } from './queries/wallet.query';
+import {
+  useWalletQuery,
+  useWalletTransactionsQuery,
+} from './queries/wallet.query'
+import { Transaction } from '@/core/domain/transaction'
 type WalletContextState = {
   wallet: Wallet | null
+  transactions: Transaction[]
 }
 
 const walletContext = createContext<WalletContextState | null>(null)
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  
   const walletQuery = useWalletQuery()
 
   const wallet = useMemo(() => {
@@ -22,10 +26,15 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const transactionsQuery = useWalletTransactionsQuery(wallet?.id ?? '')
 
-  
+  const transactions = useMemo(() => {
+    if (transactionsQuery.isSuccess) {
+      return transactionsQuery.data ?? []
+    }
+    return []
+  }, [transactionsQuery.data, transactionsQuery.isSuccess])
 
   return (
-    <walletContext.Provider value={{ wallet }}>
+    <walletContext.Provider value={{ wallet, transactions }}>
       {children}
     </walletContext.Provider>
   )
