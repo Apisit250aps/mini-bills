@@ -11,7 +11,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:pull": "drizzle-kit pull",
-    "db:reset": "drizzle-kit reset"
+    "db:reset": "drizzle-kit reset",
+    "db:seed": "bun src/lib/db/seed.ts"
   },
   "dependencies": {
     "@auth/core": "^0.41.2",
