@@ -6,6 +6,7 @@ import { auth } from '@/auth'
 import { cn } from '@/lib/utils'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import ClientProvider from '@/hooks/client-provider'
+import { WalletProvider } from '@/hooks/wallet-provider';
 
 const itim = Itim({
   weight: '400',
@@ -33,7 +34,9 @@ export default async function RootLayout({
             refetchInterval={0}
             refetchOnWindowFocus={false}
           >
-            <TooltipProvider>{children}</TooltipProvider>
+            <WalletProvider>
+              <TooltipProvider>{children}</TooltipProvider>
+            </WalletProvider>
           </SessionProvider>
         </ClientProvider>
       </body>
