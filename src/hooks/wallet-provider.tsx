@@ -2,7 +2,7 @@
 
 import { Wallet } from '@/core/domain/wallet'
 import { createContext, useContext, useMemo, useState } from 'react'
-import { useWalletQuery } from './queries/wallet.query';
+import { useWalletQuery, useWalletTransactionsQuery } from './queries/wallet.query';
 type WalletContextState = {
   wallet: Wallet | null
 }
@@ -19,6 +19,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
     return null
   }, [walletQuery.data, walletQuery.isSuccess])
+
+  const transactionsQuery = useWalletTransactionsQuery(wallet?.id ?? '')
+
+  
 
   return (
     <walletContext.Provider value={{ wallet }}>

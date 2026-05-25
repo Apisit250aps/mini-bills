@@ -5,7 +5,7 @@ import { User } from '@/core/domain/user'
 export default function UserProfile({ me }: { me: User }) {
   return (
     <div className="flex flex-col items-center gap-4">
-      <h1 className="text-2xl font-bold text-center">Profile</h1>
+      {/* <h1 className="text-2xl font-bold text-center">Profile</h1> */}
       <div className="flex flex-col justify-center gap-2">
         <div className="relative">
           <Image

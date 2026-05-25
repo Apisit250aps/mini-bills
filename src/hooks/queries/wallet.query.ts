@@ -1,3 +1,4 @@
+import { Transaction } from '@/core/domain/transaction'
 import { Wallet } from '@/core/domain/wallet'
 import { ApiResponse } from '@/lib/app/error'
 import { useQuery } from '@tanstack/react-query'
@@ -5,12 +6,28 @@ import axios from 'axios'
 
 export const useWalletQuery = () => {
   return useQuery<Wallet[]>({
-    queryKey: ['WALLET', 'USER', 'GET', 'GET_USER_WALLET'],
+    queryKey: ['WALLET', 'LIST'],
     queryFn: async ({ signal }) => {
       const res = await axios.get<ApiResponse<Wallet[]>>('/api/wallets', {
         signal,
       })
       return res.data.data || []
     },
+  })
+}
+
+export const useWalletTransactionsQuery = (walletId: string) => {
+  return useQuery<Transaction[]>({
+    queryKey: ['WALLET', walletId, 'TRANSACTIONS'],
+    queryFn: async ({ signal }) => {
+      const res = await axios({
+        method: 'GET',
+        url: '/api/transactions',
+        params: { walletId },
+        signal,
+      })
+      return res.data.data || []
+    },
+    enabled: !!walletId,
   })
 }
