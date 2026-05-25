@@ -1,16 +1,15 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Itim } from 'next/font/google'
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
+import { cn } from '@/lib/utils'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const itim = Itim({
+  weight: '400',
+  subsets: ['latin', 'thai'],
+  variable: '--font-itim',
 })
 
 export const metadata: Metadata = {
@@ -25,17 +24,14 @@ export default async function RootLayout({
 }>) {
   const session = await auth()
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={cn('h-full', 'antialiased', itim.variable)}>
       <body className="min-h-full flex flex-col">
         <SessionProvider
           session={session}
           refetchInterval={0}
           refetchOnWindowFocus={false}
         >
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
         </SessionProvider>
       </body>
     </html>
