@@ -43,16 +43,9 @@ const groupTransactionsByMonth = (data: Transaction[]) => {
   )
 }
 
-import { TrendingDown, TrendingUp, Wallet } from 'lucide-react'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import {
   ChartContainer,
   ChartTooltip,
@@ -63,7 +56,7 @@ import {
 const chartConfig = {
   income: {
     label: 'รายรับ',
-    color: 'var(--chart-1)',
+    color: 'var(--primary)',
   },
   expense: {
     label: 'รายจ่าย',
@@ -109,73 +102,41 @@ export default function Home() {
           <h1 className="text-3xl font-bold tracking-tight">{wallet?.title}</h1>
         </div>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                ยอดคงเหลือ
-              </CardTitle>
-              <Wallet className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <p
-                className={`text-2xl font-bold ${balance >= 0 ? 'text-foreground' : 'text-destructive'}`}
-              >
-                {fmt(balance)}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                ยอดสุทธิทั้งหมด
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                รายรับทั้งหมด
-              </CardTitle>
-              <TrendingUp className="h-4 w-4 text-lime-400" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-lime-400">
-                {fmt(totalIncome)}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {transactions.filter((t) => t.type === 'income').length} รายการ
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                รายจ่ายทั้งหมด
-              </CardTitle>
-              <TrendingDown className="h-4 w-4 text-rose-400" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-rose-400">
-                {fmt(totalExpense)}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {transactions.filter((t) => t.type === 'expense').length} รายการ
-              </p>
-            </CardContent>
-          </Card>
+        {/* Summary */}
+        <div className="grid grid-cols-3 gap-2">
+          <div className="flex flex-col gap-1">
+            <p className="text-xs text-muted-foreground">ยอดคงเหลือ</p>
+            <p
+              className={`text-lg font-bold ${balance >= 0 ? 'text-foreground' : 'text-destructive'}`}
+            >
+              {fmt(balance)}
+            </p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-xs text-muted-foreground">รายรับ</p>
+            <p className="text-lg font-bold text-primary">
+              {fmt(totalIncome)}
+            </p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-xs text-muted-foreground">รายจ่าย</p>
+            <p className="text-lg font-bold text-orange-400">
+              {fmt(totalExpense)}
+            </p>
+          </div>
         </div>
         {/* Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>รายรับ / รายจ่าย รายเดือน</CardTitle>
-            <CardDescription>
+        <div>
+          <div className="mb-2">
+            <p className="font-semibold">รายรับ / รายจ่าย รายเดือน</p>
+            <p className="text-sm text-muted-foreground">
               {chartData.length > 0
                 ? `${chartData[0].month} – ${chartData[chartData.length - 1].month}`
                 : 'ไม่มีข้อมูล'}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig}>
+            </p>
+          </div>
+          <div className="pb-2">
+            <ChartContainer config={chartConfig} className="h-60 w-full">
               <BarChart accessibilityLayer data={chartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
@@ -192,8 +153,66 @@ export default function Home() {
                 <Bar dataKey="expense" fill="var(--color-expense)" radius={4} />
               </BarChart>
             </ChartContainer>
-          </CardContent>
-        </Card>
+            {transactions.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                ยังไม่มีรายการ
+              </p>
+            ) : (
+              <ul className="divide-y">
+                {[...transactions]
+                  .sort(
+                    (a, b) =>
+                      new Date(b.createdAt).getTime() -
+                      new Date(a.createdAt).getTime(),
+                  )
+                  .slice(0, 10)
+                  .map((t) => (
+                    <li
+                      key={t.id}
+                      className="flex items-center justify-between px-4 py-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`flex h-8 w-8 items-center justify-center rounded-full text-white ${
+                            t.type === 'income' ? 'bg-primary' : 'bg-orange-400'
+                          }`}
+                        >
+                          {t.type === 'income' ? (
+                            <TrendingUp className="h-4 w-4" />
+                          ) : (
+                            <TrendingDown className="h-4 w-4" />
+                          )}
+                        </span>
+                        <div>
+                          <p className="text-sm font-medium leading-none">
+                            {t.description ??
+                              (t.type === 'income' ? 'รายรับ' : 'รายจ่าย')}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            {new Date(t.createdAt).toLocaleDateString('th-TH', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        className={`text-sm font-semibold ${
+                          t.type === 'income'
+                            ? 'text-primary'
+                            : 'text-orange-500'
+                        }`}
+                      >
+                        {t.type === 'income' ? '+' : '-'}
+                        {fmt(t.amount)}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
+        </div>
       </div>
     </PageLayout>
   )

@@ -36,7 +36,7 @@ export default function PageLayout({
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex flex-1 w-full max-w-3xl flex-col pt-8 pb-28 px-0 md:px-0 bg-white dark:bg-black">
-        <div className="flex justify-between items-center mb-8 px-4">
+        <div className="flex justify-between items-center px-4">
           {pathname !== '/' && (
             <Button className="text-white" asChild>
               <Link href="/">
