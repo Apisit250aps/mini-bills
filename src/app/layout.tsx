@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 import { cn } from '@/lib/utils'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import ClientProvider from '@/hooks/client-provider'
 
 const itim = Itim({
   weight: '400',
@@ -26,13 +27,15 @@ export default async function RootLayout({
   return (
     <html lang="en" className={cn('h-full', 'antialiased', itim.variable)}>
       <body className="min-h-full flex flex-col">
-        <SessionProvider
-          session={session}
-          refetchInterval={0}
-          refetchOnWindowFocus={false}
-        >
-          <TooltipProvider>{children}</TooltipProvider>
-        </SessionProvider>
+        <ClientProvider>
+          <SessionProvider
+            session={session}
+            refetchInterval={0}
+            refetchOnWindowFocus={false}
+          >
+            <TooltipProvider>{children}</TooltipProvider>
+          </SessionProvider>
+        </ClientProvider>
       </body>
     </html>
   )
