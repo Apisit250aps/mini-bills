@@ -158,7 +158,7 @@ export default function Home() {
                 ยังไม่มีรายการ
               </p>
             ) : (
-              <ul className="divide-y">
+              <ul className="">
                 {[...transactions]
                   .sort(
                     (a, b) =>
@@ -185,7 +185,7 @@ export default function Home() {
                         </span>
                         <div>
                           <p className="text-sm font-medium leading-none">
-                            {t.description ??
+                            {t.title ??
                               (t.type === 'income' ? 'รายรับ' : 'รายจ่าย')}
                           </p>
                           <p className="text-xs text-muted-foreground mt-0.5">
