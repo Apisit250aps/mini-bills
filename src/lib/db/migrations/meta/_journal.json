@@ -15,6 +15,13 @@
       "when": 1779617636783,
       "tag": "0001_add_wallet_transactions",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779890915577,
+      "tag": "0002_bouncy_ghost_rider",
+      "breakpoints": true
     }
   ]
 }

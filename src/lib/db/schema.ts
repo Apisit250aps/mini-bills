@@ -117,8 +117,10 @@ export const transaction = pgTable('transaction', {
   walletId: text('walletId')
     .notNull()
     .references(() => wallet.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
   amount: integer('amount').notNull(),
   description: text('description'),
+  category: text('category'),
   type: transactionEnum('type').notNull(),
   createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
