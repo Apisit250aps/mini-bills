@@ -15,8 +15,11 @@ export default class TransactionController extends Controller {
       {
         body: z.object({
           walletId: z.string().uuid(),
+          title: z.string(),
           amount: z.number(),
-          description: z.string().nullable().optional(),
+          description: z.string().optional(),
+          category: z.string().optional(),
+          type: z.enum(['income', 'expense']),
         }),
       },
       async (c: Context) => {

@@ -1,7 +1,7 @@
 import { Transaction } from '@/core/domain/transaction'
 import { Wallet } from '@/core/domain/wallet'
 import { ApiResponse } from '@/lib/app/error'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 export const useWalletQuery = () => {
@@ -30,4 +30,26 @@ export const useWalletTransactionsQuery = (walletId: string) => {
     },
     enabled: !!walletId,
   })
+}
+
+export const useTransactionMutation = () => {
+  const create = useMutation({
+    mutationKey: ['TRANSACTION', 'CREATE'],
+    mutationFn: async (input: {
+      walletId: string
+      title: string
+      amount: number
+      description?: string
+      category?: string
+      type: 'income' | 'expense'
+    }) => {
+      const res = await axios({
+        method: 'POST',
+        url: '/api/transactions',
+        data: input,
+      })
+      return res.data.data
+    },
+  })
+  return { create }
 }

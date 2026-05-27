@@ -35,9 +35,7 @@ export default async function RootLayout({
             refetchInterval={0}
             refetchOnWindowFocus={false}
           >
-            <WalletProvider>
-              <TooltipProvider>{children}</TooltipProvider>
-            </WalletProvider>
+            <TooltipProvider>{children}</TooltipProvider>
           </SessionProvider>
         </ClientProvider>
       </body>
